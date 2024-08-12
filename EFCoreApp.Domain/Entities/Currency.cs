@@ -11,5 +11,7 @@ namespace EFCoreApp.Domain.Entities
         public int CurrencyId { get; set; }
         public string CurrencyKey { get; set; }
         public string CurrencyName { get; set; }
+        public ICollection<BusinessUnit> BaseBusinessUnits { get; set; }
+        public ICollection<BusinessUnit> ReportBusinessUnits { get; set; }
     }
 }

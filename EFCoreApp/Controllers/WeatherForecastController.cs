@@ -1,4 +1,6 @@
+using EFCoreApp.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreApp.Controllers
 {
@@ -19,8 +21,13 @@ namespace EFCoreApp.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
+
+            using (var context = new Context())
+            {
+                var rr = await context.BusinessUnits.Include(x => x.BaseCurrency).ToListAsync();
+            }
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
