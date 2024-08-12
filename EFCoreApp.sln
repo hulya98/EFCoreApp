@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreApp", "EFCoreApp\EFCoreApp.csproj", "{40E16BCB-EE2F-499B-862B-72593D70A708}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreApp.Domain", "EFCoreApp.Domain\EFCoreApp.Domain.csproj", "{3EB13A7E-0677-4FD7-B80A-CBCE78579E19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{40E16BCB-EE2F-499B-862B-72593D70A708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40E16BCB-EE2F-499B-862B-72593D70A708}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40E16BCB-EE2F-499B-862B-72593D70A708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EB13A7E-0677-4FD7-B80A-CBCE78579E19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EB13A7E-0677-4FD7-B80A-CBCE78579E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EB13A7E-0677-4FD7-B80A-CBCE78579E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EB13A7E-0677-4FD7-B80A-CBCE78579E19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
