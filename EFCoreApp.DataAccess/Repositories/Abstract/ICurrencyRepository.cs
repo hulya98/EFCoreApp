@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EFCoreApp.DataAccess.Repositories.Abstract
 {
-    public interface ICurrencyRepository 
+    public interface ICurrencyRepository : IRepository<Currency>
     {
     }
 }

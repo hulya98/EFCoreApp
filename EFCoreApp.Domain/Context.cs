@@ -12,6 +12,7 @@ namespace EFCoreApp.Domain
 {
     public class Context : DbContext
     {
+        private readonly IConfiguration _configuration;
         public Context()
         {
             
@@ -21,6 +22,7 @@ namespace EFCoreApp.Domain
         {
         }
 
+      
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<BusinessUnit> BusinessUnits { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,8 +34,9 @@ namespace EFCoreApp.Domain
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var migrationsConnectionString = @"Server=localhost;Database=ERP;User Id=sa;Password=Salamsalam1!;TrustServerCertificate=True;"
-;
+         
+            var migrationsConnectionString = @"Server=localhost;Database=ERP;Trusted_connection=true;TrustServerCertificate=True;";
+            //var migrationsConnectionString = @"Server=localhost;Database=ERP;User Id=sa;Password=Salamsalam1!;TrustServerCertificate=True;";
 
             optionsBuilder.UseSqlServer(migrationsConnectionString);
 

@@ -11,11 +11,11 @@ namespace EFCoreApp.DataAccess.Services.Concrete
 {
     public class CurrencyService : Service<Currency>, ICurrencyService
     {
-        public CurrencyService()
+        private readonly ICurrencyRepository _currencyRepository;
+        public CurrencyService(ICurrencyRepository repository) : base(repository)
         {
-
+            _currencyRepository = repository;
         }
-
 
     }
 }

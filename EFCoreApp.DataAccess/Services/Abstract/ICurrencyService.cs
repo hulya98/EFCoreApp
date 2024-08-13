@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EFCoreApp.DataAccess.Services.Abstract
 {
-    public interface ICurrencyService
+    public interface ICurrencyService : IService<Currency>
     {
     }
 }
