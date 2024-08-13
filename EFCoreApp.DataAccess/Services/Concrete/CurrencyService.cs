@@ -9,13 +9,17 @@ using System.Threading.Tasks;
 
 namespace EFCoreApp.DataAccess.Services.Concrete
 {
-    public class CurrencyService : Service<Currency>, ICurrencyService
+    public class CurrencyService : ICurrencyService
     {
         private readonly ICurrencyRepository _currencyRepository;
-        public CurrencyService(ICurrencyRepository repository) : base(repository)
+        public CurrencyService(ICurrencyRepository repository)
         {
             _currencyRepository = repository;
         }
 
+        public async Task<IEnumerable<Currency>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

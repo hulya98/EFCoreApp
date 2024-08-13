@@ -3,6 +3,7 @@ using EFCoreApp.Domain.Entities;
 using EFCoreApp.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 
 namespace EFCoreApp.Controllers
 {
