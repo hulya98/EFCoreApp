@@ -1,4 +1,8 @@
+using EFCoreApp.DataAccess.Repositories.Abstract;
+using EFCoreApp.DataAccess.Services.Abstract;
+using EFCoreApp.DataAccess.Services.Concrete;
 using EFCoreApp.Domain;
+using EFCoreApp.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,33 +12,18 @@ namespace EFCoreApp.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        //private readonly ICurrencyService _currencyService;
+        public WeatherForecastController(
+            //ICurrencyService currencyService
+            )
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
+            //_currencyService = currencyService;
         }
-
-        [HttpGet(Name = "GetWeatherForecast")]
-        public async Task<IEnumerable<WeatherForecast>> Get()
-        {
-
-            using (var context = new Context())
-            {
-                var rr = await context.BusinessUnits.Include(x => x.BaseCurrency).ToListAsync();
-            }
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
+        //[HttpGet(Name = "GetWeatherForecast")]
+        //public async Task<IEnumerable<Currency>>? Get()
+        //{
+        //    var cc = await _currencyService.ge();
+        //    return cc;
+        //}
     }
 }

@@ -1,7 +1,10 @@
+using EFCoreApp.DataAccess.Repositories.Abstract;
+using EFCoreApp.DataAccess.Repositories.Concrete;
+using EFCoreApp.DataAccess.Services.Abstract;
+using EFCoreApp.DataAccess.Services.Concrete;
 using EFCoreApp.DataAccess.UnitOfWork;
 using EFCoreApp.Domain;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,8 @@ builder.Services.AddDbContext<Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings.DefaultConnection")));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 
 var app = builder.Build();
 
