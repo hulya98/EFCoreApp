@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using EFCoreApp.Domain.Dtos;
+using EFCoreApp.Domain.Dtos.BusinessUnit;
+using EFCoreApp.Domain.Dtos.Currency;
 using EFCoreApp.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,12 @@ namespace EFCoreApp.Domain.Mapers
         {
             #region curreny
             CreateMap<Currency, CurrencyViewDto>().ReverseMap();
+            CreateMap<Currency, CurrencyIUDRequest>().ReverseMap();
+            #endregion
+
+            #region businessUnit
+            CreateMap<BusinessUnit, BusinessUnitViewDto>().ReverseMap();
+            CreateMap<BusinessUnit, BusinessUnitIUDRequest>().ReverseMap();
             #endregion
         }
     }

@@ -16,12 +16,17 @@ namespace EFCoreApp.Domain.EntityTypeConfiguration
             builder.HasOne(b => b.BaseCurrency)
               .WithMany(c => c.BaseBusinessUnits)
               .HasForeignKey(b => b.BaseCurrencyId)
-              .OnDelete(DeleteBehavior.Restrict); 
+              .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(b => b.ReportCurrency)
                    .WithMany(c => c.ReportBusinessUnits)
                    .HasForeignKey(b => b.ReportCurrencyId)
                    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(x => x.BusinessUnitCode).IsUnique();
+
+            builder.Property(x => x.BusinessUnitCode).HasMaxLength(3);
+            builder.Property(x => x.BusinessUnitName).HasMaxLength(200);
 
             builder.HasData(new BusinessUnit
             {

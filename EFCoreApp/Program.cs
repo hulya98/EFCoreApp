@@ -4,6 +4,7 @@ using EFCoreApp.DataAccess.Services.Abstract;
 using EFCoreApp.DataAccess.Services.Concrete;
 using EFCoreApp.DataAccess.UnitOfWork;
 using EFCoreApp.Domain;
+using EFCoreApp.Domain.Mapers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +19,10 @@ builder.Services.AddDbContext<Context>(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+builder.Services.AddScoped<IBusinessUnitRepository, BusinessUnitRepository>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
-
+builder.Services.AddScoped<IBusinessUnitService, BusinessUnitService>();
+builder.Services.AddAutoMapper(typeof(MapProfile));
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -27,7 +30,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.UseHttpsRedirection();
 

@@ -1,4 +1,5 @@
 ﻿using EFCoreApp.DataAccess.Repositories.Abstract;
+using EFCoreApp.Domain.Dtos.Currency;
 using EFCoreApp.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,10 @@ namespace EFCoreApp.DataAccess.Services.Abstract
 {
     public interface ICurrencyService
     {
-        Task<IEnumerable<Currency>> GetAll();
+        Task<List<CurrencyViewDto>> GetAll();
+        Task<CurrencyViewDto> Add(CurrencyIUDRequest request);
+        Task<CurrencyViewDto> Update(CurrencyIUDRequest request);
+        Task Delete(List<int> request);
+
     }
 }

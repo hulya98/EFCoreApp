@@ -23,27 +23,21 @@ namespace EFCoreApp.DataAccess.Repositories.Concrete
         public async Task<T> Add(T entity)
         {
             await _dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<IEnumerable<T>> All()
+        public async Task<IEnumerable<T>> GetAll()
         {
             return await _dbSet.ToListAsync();
         }
 
-        public async Task Delete(List<int> ids)
+        public async Task Delete(int id)
         {
-            foreach (var id in ids)
+            var entity = await _dbSet.FindAsync(id);
+            if (entity != null)
             {
-                var entity = await _dbSet.FindAsync(id);
-                if (entity != null)
-                {
-                    _dbSet.Remove(entity);
-                }
+                _dbSet.Remove(entity);
             }
-
-            await _context.SaveChangesAsync();
         }
 
         public async Task<T> FindById(int id)
@@ -55,7 +49,6 @@ namespace EFCoreApp.DataAccess.Repositories.Concrete
         {
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
             return entity;
         }
     }

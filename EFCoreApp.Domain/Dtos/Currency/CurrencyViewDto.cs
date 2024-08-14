@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EFCoreApp.Domain.Dtos
+namespace EFCoreApp.Domain.Dtos.Currency
 {
     public class CurrencyViewDto
     {

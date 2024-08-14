@@ -14,6 +14,8 @@ namespace EFCoreApp.Domain.EntityTypeConfiguration
     {
         public void Configure(EntityTypeBuilder<Currency> builder)
         {
+            builder.HasIndex(x => x.CurrencyKey).IsUnique();
+
             builder.HasData(new Currency
             {
                 CurrencyId = 1,

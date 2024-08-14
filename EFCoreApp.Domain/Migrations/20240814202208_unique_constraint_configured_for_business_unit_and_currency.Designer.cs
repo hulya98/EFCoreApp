@@ -4,6 +4,7 @@ using EFCoreApp.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreApp.Domain.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240814202208_unique_constraint_configured_for_business_unit_and_currency")]
+    partial class unique_constraint_configured_for_business_unit_and_currency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,13 +38,11 @@ namespace EFCoreApp.Domain.Migrations
 
                     b.Property<string>("BusinessUnitCode")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("BusinessUnitName")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
@@ -78,32 +79,6 @@ namespace EFCoreApp.Domain.Migrations
                             BusinessUnitName = "Azərbaycan Dəmir yolları",
                             ReportCurrencyId = 1
                         });
-                });
-
-            modelBuilder.Entity("EFCoreApp.Domain.Entities.BusinessUnitCurrency", b =>
-                {
-                    b.Property<string>("BaseCurrencyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BusinessUnitCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("BusinessUnitId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BusinessUnitName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReportCurrencyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable((string)null);
-
-                    b.ToView("VW_BusinessUnitCurrency", (string)null);
                 });
 
             modelBuilder.Entity("EFCoreApp.Domain.Entities.Currency", b =>
