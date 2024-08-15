@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EFCoreApp.Domain.Entities
 {
     [NotMapped]
-    public class BusinessUnitCurrency
+    public class BusinessUnitCurrency : BaseEntity
     {
         public int BusinessUnitId { get; set; }
         public string BusinessUnitCode { get; set; }
