@@ -17,5 +17,6 @@ namespace EFCoreApp.DataAccess.Repositories.Concrete
         }
 
 
+
     }
 }

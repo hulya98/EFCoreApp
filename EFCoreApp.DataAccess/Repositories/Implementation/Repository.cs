@@ -20,18 +20,18 @@ namespace EFCoreApp.DataAccess.Repositories.Concrete
             _dbSet = context.Set<T>();
         }
 
-        public async Task<T> Add(T entity)
+        public virtual async Task<T> Add(T entity)
         {
             await _dbSet.AddAsync(entity);
             return entity;
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAll()
         {
             return await _dbSet.ToListAsync();
         }
 
-        public async Task Delete(int id)
+        public virtual async Task Delete(int id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity != null)
@@ -40,12 +40,12 @@ namespace EFCoreApp.DataAccess.Repositories.Concrete
             }
         }
 
-        public async Task<T> FindById(int id)
+        public virtual async Task<T> FindById(int id)
         {
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<T> Update(T entity)
+        public virtual async Task<T> Update(T entity)
         {
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;

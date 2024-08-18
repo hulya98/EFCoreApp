@@ -26,6 +26,9 @@ namespace EFCoreApp.Domain
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<BusinessUnit> BusinessUnits { get; set; }
         public DbSet<BusinessUnitCurrency> BusinessUnitCurrencies { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
@@ -34,6 +37,7 @@ namespace EFCoreApp.Domain
             modelBuilder.Entity<BusinessUnitCurrency>()
                 .ToView("VW_BusinessUnitCurrency")
                 .HasNoKey();
+
 
             base.OnModelCreating(modelBuilder);
         }
