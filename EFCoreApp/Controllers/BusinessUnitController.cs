@@ -3,11 +3,13 @@ using EFCoreApp.DataAccess.Services.Concrete;
 using EFCoreApp.Domain.Dtos.BusinessUnit;
 using EFCoreApp.Domain.Entities;
 using EFCoreApp.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EFCoreApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class BusinessUnitController : CustomBaseController

@@ -1,5 +1,6 @@
-﻿using EFCoreApp.Domain.Entities;
-using EFCoreApp.Domain.EntityTypeConfiguration;
+﻿using EFCoreApp.Domain.EntityTypeConfiguration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -7,12 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EFCoreApp.Domain.Entities;
 
 namespace EFCoreApp.Domain
 {
-    public class Context : DbContext
+    public sealed class Context : IdentityDbContext<AppUser, AppRole, Guid, IdentityUserClaim<Guid>, AppUserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
+
     {
-        private readonly IConfiguration _configuration;
         public Context()
         {
 
@@ -26,9 +28,6 @@ namespace EFCoreApp.Domain
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<BusinessUnit> BusinessUnits { get; set; }
         public DbSet<BusinessUnitCurrency> BusinessUnitCurrencies { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CurrencyConfiguration());

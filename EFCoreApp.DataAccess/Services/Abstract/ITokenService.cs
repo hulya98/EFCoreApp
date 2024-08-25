@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace EFCoreApp.DataAccess.Services.Abstract
 {
-    public interface IAccountService
+    public interface ITokenService
     {
-        public Task<LoginResponse> Authenticate(LoginRequest request);
+        string GenerateToken(TokenGenerationRequest request);
     }
 }
