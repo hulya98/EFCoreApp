@@ -5,14 +5,28 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using EFCoreApp.DataAccess.Services.Abstract;
 
 
 namespace EFCoreApp.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public sealed class AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : ControllerBase
+    public sealed class AuthController : ControllerBase
     {
+
+        private readonly ITokenService tokenService;
+        private readonly UserManager<AppUser> userManager;
+        private readonly SignInManager<AppUser> signInManager;
+        public AuthController(ITokenService tokenService,
+                              UserManager<AppUser> userManager,
+                              SignInManager<AppUser> signInManager)
+        {
+            this.tokenService = tokenService;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+        }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto request, CancellationToken cancellationToken)
         {
@@ -121,7 +135,11 @@ namespace EFCoreApp.Controllers
             }
             return Ok(new
             {
-                Token = "token"
+                Token = tokenService.GenerateToken(new Domain.Dtos.Account.TokenGenerationRequest
+                {
+                    UserId = appUser.Id,
+                    Email = appUser.Email
+                })
             });
         }
 

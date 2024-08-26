@@ -32,6 +32,12 @@ namespace EFCoreApp.Domain
         {
             modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
             modelBuilder.ApplyConfiguration(new BusinessUnitConfiguration());
+            modelBuilder.ApplyConfiguration(new AppUserRoleConfiguration());
+
+            modelBuilder.Ignore<IdentityUserLogin<Guid>>();
+            modelBuilder.Ignore<IdentityUserToken<Guid>>();
+            modelBuilder.Ignore<IdentityUserClaim<Guid>>();
+            modelBuilder.Ignore<IdentityRoleClaim<Guid>>();
 
             modelBuilder.Entity<BusinessUnitCurrency>()
                 .ToView("VW_BusinessUnitCurrency")
