@@ -8,8 +8,8 @@ namespace EFCoreApp.Domain.Entities
 {
     public class BaseEntity
     {
-        public int? CreatedBy { get; set; }
-        public int? ModifiedBy { get; set; }
+        public string? CreatedBy { get; set; }
+        public string? ModifiedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
     }

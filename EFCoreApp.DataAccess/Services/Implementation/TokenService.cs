@@ -2,6 +2,7 @@
 using EFCoreApp.Domain.Dtos.Account;
 using Microsoft.AspNet.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -16,34 +17,53 @@ namespace EFCoreApp.DataAccess.Services.Implementation
 {
     public class TokenService : ITokenService
     {
-        private const string TokenSecret = "ForTheLoveOfStoreAndLoadThisSecurity";
-        private static readonly TimeSpan TokenLifeTime = TimeSpan.FromHours(8);
-
-        public string GenerateToken(TokenGenerationRequest request)
+        private readonly IConfiguration _configuration;
+        public TokenService(IConfiguration configuration)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes("ForTheLoveOfStoreAndLoadThisSecurity");
+            _configuration = configuration;
+        }
 
-            var claims = new List<Claim>
+        public async Task<string> GenerateToken(TokenGenerationRequest request)
         {
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(JwtRegisteredClaimNames.Sub, request.Email),
-            new(JwtRegisteredClaimNames.Email, request.Email),
-            new("userId", request.UserId.ToString())
-        };
+            string result = "";
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
+            SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.Add(TokenLifeTime),
-                Issuer = "",
-                Audience = "",
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Audience = _configuration["Token:Audience"],
+                Issuer = _configuration["Token:Issuer"],    
+                Expires = DateTime.Now.AddHours(1),
+                NotBefore = DateTime.UtcNow,
+                Subject = new ClaimsIdentity(await GetUserClaimsAsync(request)),
+                SigningCredentials = signingCredentials
+
             };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken securityToken = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
+
+            result = tokenHandler.WriteToken(securityToken);
+            return result;
+
+        }
+
+        public async Task<List<Claim>> GetUserClaimsAsync(TokenGenerationRequest user)
+        {
+            var claims = await Task.Run(() =>
+            {
+                var value = new List<Claim>
+                    {
+                    new Claim(ClaimTypes.Name,user.Email.ToString()),
+                    new Claim(ClaimTypes.Email,user.Email),
+                    new Claim(ClaimTypes.NameIdentifier,user.UserId.ToString())
+                    };
+                return value;
+            });
+
+            return claims;
         }
     }
+
 }
 

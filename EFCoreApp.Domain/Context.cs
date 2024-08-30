@@ -9,19 +9,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EFCoreApp.Domain.Entities;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace EFCoreApp.Domain
 {
     public sealed class Context : IdentityDbContext<AppUser, AppRole, Guid, IdentityUserClaim<Guid>, AppUserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
-
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public Context()
         {
 
         }
-        public Context(DbContextOptions<Context> options)
+        public Context(DbContextOptions<Context> options, IHttpContextAccessor httpContextAccessor)
         : base(options)
         {
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -49,9 +52,8 @@ namespace EFCoreApp.Domain
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
-            var migrationsConnectionString = @"Server=localhost;Database=ERP;Trusted_connection=true;TrustServerCertificate=True;";
-            //var migrationsConnectionString = @"Server=localhost;Database=ERP;User Id=sa;Password=Salamsalam1!;TrustServerCertificate=True;";
+            //var migrationsConnectionString = @"Server=localhost;Database=ERP;Trusted_connection=true;TrustServerCertificate=True;";
+            var migrationsConnectionString = @"Server=localhost;Database=ERP;User Id=sa;Password=Salamsalam1!;TrustServerCertificate=True;";
 
             optionsBuilder.UseSqlServer(migrationsConnectionString);
 
@@ -60,12 +62,20 @@ namespace EFCoreApp.Domain
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var datas = ChangeTracker.Entries<BaseEntity>();
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             foreach (var data in datas)
             {
-                _ = data.State switch
+                switch (data.State)
                 {
-                    EntityState.Added => data.Entity.CreatedDate = DateTime.UtcNow,
-                    EntityState.Modified => data.Entity.ModifiedDate = DateTime.UtcNow,
+                    case EntityState.Added:
+                        data.Entity.CreatedDate = DateTime.UtcNow;
+                        data.Entity.CreatedBy = userId;
+                        break;
+                    case EntityState.Modified:
+                        data.Entity.ModifiedDate = DateTime.UtcNow;
+                        data.Entity.ModifiedBy = userId;
+                        break;
                 };
             }
             return await base.SaveChangesAsync(cancellationToken);

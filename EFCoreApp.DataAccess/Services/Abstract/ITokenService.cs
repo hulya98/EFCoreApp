@@ -9,6 +9,6 @@ namespace EFCoreApp.DataAccess.Services.Abstract
 {
     public interface ITokenService
     {
-        string GenerateToken(TokenGenerationRequest request);
+        Task<string> GenerateToken(TokenGenerationRequest request);
     }
 }
