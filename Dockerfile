@@ -1,21 +1,23 @@
-# Use the appropriate SDK for .NET 8.0
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
-# Copy csproj and restore as distinct layers
-COPY EFCoreApp/*.csproj ./EFCoreApp/
-WORKDIR /app/EFCoreApp
-RUN dotnet restore
+COPY ./EFCoreApp.DataAccess/EFCoreApp.DataAccess.csproj ./EFCoreApp.DataAccess/EFCoreApp.DataAccess.csproj
+COPY ./EFCoreApp.Domain/EFCoreApp.Domain.csproj ./EFCoreApp.Domain/SolaERP.Domain.csproj
+COPY ./EFCoreApp/EFCoreApp.csproj ./EFCoreApp/EFCoreApp.csproj
 
-# Copy everything else and build
-COPY EFCoreApp/ ./
-RUN dotnet publish --no-restore -c Release -o out
+RUN dotnet nuget locals all --clear
 
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+RUN dotnet restore "./EFCoreApp/EFCoreApp.csproj"
+
+COPY . ./
+
+ENV DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
+
+RUN dotnet publish -c Release -o output
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=build-env /app/EFCoreApp/out .
-
+COPY --from=build-env /app/output .
 ENTRYPOINT ["dotnet", "EFCoreApp.dll"]
 
 
