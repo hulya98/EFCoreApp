@@ -25,7 +25,7 @@ builder.Services.AddAuthentication(x =>
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;
+    options.RequireHttpsMetadata = false;   
     options.SaveToken = true;
 
     options.TokenValidationParameters = new()
@@ -37,7 +37,7 @@ builder.Services.AddAuthentication(x =>
         ValidAudience = builder.Configuration["Token:Audience"],
         ValidIssuer = builder.Configuration["Token:Issuer"],
         IssuerSigningKey =
-            new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+            new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
         NameClaimType = ClaimTypes.NameIdentifier,
         LifetimeValidator = (notBefore, expires, securityToken, validationParametrs) =>
