@@ -7,7 +7,7 @@ services:
     container_name: sola-erp-api-old-${PORT:-50001}
     restart: always
     ports:
-      - "${PORT:-50001}:80"
+      - "${PORT:-50001}:50001"
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
     volumes:
