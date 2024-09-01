@@ -4,6 +4,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Core;
+using Serilog.Sinks.MSSqlServer;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Security.Claims;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
@@ -19,13 +24,31 @@ builder.AddRepositoryExtensions();
 builder.AddMapperExtensions();
 builder.AddIdentityExtensions();
 
+var columnOptions = new ColumnOptions
+{
+    AdditionalColumns = new Collection<SqlColumn>
+    {
+        new SqlColumn("user_name", SqlDbType.NVarChar, dataLength: 128)
+    },
+   
+    
+};
+
+Logger log = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log.txt")
+    .WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), "logs"
+       , autoCreateSqlTable: true,
+       columnOptions: columnOptions)
+    .CreateLogger();
+builder.Host.UseSerilog();
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;   
+    options.RequireHttpsMetadata = false;
     options.SaveToken = true;
 
     options.TokenValidationParameters = new()
@@ -39,7 +62,7 @@ builder.Services.AddAuthentication(x =>
         IssuerSigningKey =
             new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
-        NameClaimType = ClaimTypes.NameIdentifier,
+        NameClaimType = ClaimTypes.Name,
         LifetimeValidator = (notBefore, expires, securityToken, validationParametrs) =>
             expires != null ? expires > DateTime.UtcNow : false
     };

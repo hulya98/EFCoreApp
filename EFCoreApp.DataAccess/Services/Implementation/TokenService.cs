@@ -1,5 +1,6 @@
 ﻿using EFCoreApp.DataAccess.Services.Abstract;
 using EFCoreApp.Domain.Dtos.Account;
+using EFCoreApp.Domain.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +24,7 @@ namespace EFCoreApp.DataAccess.Services.Implementation
             _configuration = configuration;
         }
 
-        public async Task<string> GenerateToken(TokenGenerationRequest request)
+        public async Task<string> GenerateToken(TokenGenerationRequest request, AppUser user)
         {
             string result = "";
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
@@ -32,11 +33,12 @@ namespace EFCoreApp.DataAccess.Services.Implementation
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Audience = _configuration["Token:Audience"],
-                Issuer = _configuration["Token:Issuer"],    
+                Issuer = _configuration["Token:Issuer"],
                 Expires = DateTime.Now.AddHours(1),
                 NotBefore = DateTime.UtcNow,
                 Subject = new ClaimsIdentity(await GetUserClaimsAsync(request)),
-                SigningCredentials = signingCredentials
+                SigningCredentials = signingCredentials,
+                
 
             };
 
