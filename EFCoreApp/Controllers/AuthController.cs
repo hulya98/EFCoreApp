@@ -14,22 +14,26 @@ namespace EFCoreApp.Controllers
     [ApiController]
     public sealed class AuthController : ControllerBase
     {
-
+        private readonly ILogger<AuthController> logger;
         private readonly ITokenService tokenService;
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
         public AuthController(ITokenService tokenService,
                               UserManager<AppUser> userManager,
-                              SignInManager<AppUser> signInManager)
+                              SignInManager<AppUser> signInManager,
+                              ILogger<AuthController> logger)
         {
             this.tokenService = tokenService;
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.logger = logger;
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto request, CancellationToken cancellationToken)
         {
+            //logger.Log(LogLevel.Error, "error");
+            //throw new DivideByZeroException();
             AppUser appUser = new AppUser()
             {
                 Email = request.Email,
@@ -139,7 +143,7 @@ namespace EFCoreApp.Controllers
                 {
                     UserId = appUser.Id,
                     Email = appUser.Email
-                })
+                }, appUser)
             });
         }
 

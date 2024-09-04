@@ -35,12 +35,14 @@ var columnOptions = new ColumnOptions
 };
 
 Logger log = new LoggerConfiguration()
+    .MinimumLevel.Information()
     .WriteTo.Console()
     .WriteTo.File("logs/log.txt")
     .WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), "logs"
        , autoCreateSqlTable: true,
        columnOptions: columnOptions)
     .CreateLogger();
+
 builder.Host.UseSerilog();
 builder.Services.AddAuthentication(x =>
 {
@@ -68,6 +70,7 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
+builder.Services.AddLogging();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc($"v1", new OpenApiInfo
