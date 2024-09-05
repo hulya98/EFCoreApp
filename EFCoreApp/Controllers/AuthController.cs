@@ -33,7 +33,7 @@ namespace EFCoreApp.Controllers
         public async Task<IActionResult> Register(RegisterDto request, CancellationToken cancellationToken)
         {
             //logger.Log(LogLevel.Error, "error");
-            //throw new DivideByZeroException();
+            throw new InvalidCastException();
             AppUser appUser = new AppUser()
             {
                 Email = request.Email,

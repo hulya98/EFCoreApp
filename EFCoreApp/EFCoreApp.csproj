@@ -27,4 +27,8 @@
     <ProjectReference Include="..\EFCoreApp.Domain\EFCoreApp.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
 </Project>

@@ -30,18 +30,20 @@ var columnOptions = new ColumnOptions
     {
         new SqlColumn("user_name", SqlDbType.NVarChar, dataLength: 128)
     },
-   
-    
+
+
 };
 
-Logger log = new LoggerConfiguration()
-    .MinimumLevel.Information()
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
     .WriteTo.Console()
     .WriteTo.File("logs/log.txt")
-    .WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), "logs"
-       , autoCreateSqlTable: true,
-       columnOptions: columnOptions)
     .CreateLogger();
+
+//builder.Host.UseSerilog((context, loggerConfig) =>
+//        loggerConfig.ReadFrom.Configuration(context.Configuration));
 
 builder.Host.UseSerilog();
 builder.Services.AddAuthentication(x =>
