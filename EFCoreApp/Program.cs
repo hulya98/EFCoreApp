@@ -9,6 +9,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Sinks.MSSqlServer;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Data;
 using System.Security.Claims;
 using System.Text;
@@ -114,7 +115,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    Console.WriteLine("is prod");
+    Console.WriteLine(app.Environment.IsProduction());
     Console.WriteLine(@"Server=${SERVER_NAME};Database=@{DB_NAME};User Id=${DB_USER};Password=${DB_PASS};TrustServerCertificate=True;");
 
 }
