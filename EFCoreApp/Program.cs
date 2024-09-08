@@ -116,7 +116,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI();
     Console.WriteLine(app.Environment.IsProduction());
-    Console.WriteLine(@"Server=${SERVER_NAME};Database=@{DB_NAME};User Id=${DB_USER};Password=${DB_PASS};TrustServerCertificate=True;");
+    Console.WriteLine(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 
 }
 
