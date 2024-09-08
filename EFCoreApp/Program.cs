@@ -1,6 +1,7 @@
 using EFCoreApp.Extensions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -113,6 +114,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    Console.WriteLine("is prod");
+    Console.WriteLine(@"Server=${SERVER_NAME};Database=@{DB_NAME};User Id=${DB_USER};Password=${DB_PASS};TrustServerCertificate=True;");
 
 }
 
