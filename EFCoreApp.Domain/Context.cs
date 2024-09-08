@@ -52,8 +52,8 @@ namespace EFCoreApp.Domain
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //var migrationsConnectionString = @"Server=localhost;Database=ERP;Trusted_connection=true;TrustServerCertificate=True;"; 
-            var migrationsConnectionString = @"Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USERNAME};Password=${DB_PASSWORD};TrustServerCertificate=True";
+            var migrationsConnectionString = @"Server=localhost;Database=ERP;Trusted_connection=true;TrustServerCertificate=True;";
+            //var migrationsConnectionString = @"Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USERNAME};Password=${DB_PASSWORD};TrustServerCertificate=True";
 
             //var migrationsConnectionString = @"Server=localhost;Database=ERP;User Id=sa;Password=Salamsalam1!;TrustServerCertificate=True;";
 

@@ -27,15 +27,12 @@ builder.AddRepositoryExtensions();
 builder.AddMapperExtensions();
 builder.AddIdentityExtensions();
 
-var columnOptions = new ColumnOptions
-{
-    AdditionalColumns = new Collection<SqlColumn>
-    {
-        new SqlColumn("user_name", SqlDbType.NVarChar, dataLength: 128)
-    },
-
-
-};
+var conn = Environment.GetEnvironmentVariable("DB_HOST") ??
+                      $"Server={Environment.GetEnvironmentVariable("DB_HOST")};" +
+                      $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
+                      $"User Id={Environment.GetEnvironmentVariable("DB_USERNAME")};" +
+                      $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")};" +
+                      "TrustServerCertificate=True;";
 
 
 Log.Logger = new LoggerConfiguration()
@@ -117,11 +114,11 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI();
     Console.WriteLine(app.Environment.IsProduction());
-    Console.WriteLine(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+    Debug.WriteLine(conn);
 
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
