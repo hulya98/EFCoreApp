@@ -11,6 +11,7 @@ using Serilog.Sinks.MSSqlServer;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
