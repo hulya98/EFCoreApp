@@ -114,7 +114,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI();
     Console.WriteLine(app.Environment.IsProduction());
-    Debug.WriteLine(conn);
+    Console.WriteLine(conn);
 
 }
 
