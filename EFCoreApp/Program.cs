@@ -42,8 +42,8 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.File("logs/log.txt")
     .CreateLogger();
 
-//builder.Host.UseSerilog((context, loggerConfig) =>
-//        loggerConfig.ReadFrom.Configuration(context.Configuration));
+builder.Host.UseSerilog((context, loggerConfig) =>
+        loggerConfig.ReadFrom.Configuration(context.Configuration));
 
 builder.Host.UseSerilog();
 builder.Services.AddAuthentication(x =>
