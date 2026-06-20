@@ -4,6 +4,6 @@ namespace EFCoreApp.Configurations.ColumnWriters
 {
     public class UsernameColumnWriter : ColumnOptions
     {
-       
+       //test01
     }
 }
